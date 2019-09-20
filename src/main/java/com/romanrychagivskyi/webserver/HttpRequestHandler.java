@@ -15,6 +15,9 @@ public class HttpRequestHandler implements Runnable {
         this.processor = processor;
     }
 
+    /**
+     * Starts thread to process request
+     */
     @Override
     public void run() {
         try {

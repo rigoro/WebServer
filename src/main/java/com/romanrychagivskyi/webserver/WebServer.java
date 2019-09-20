@@ -64,6 +64,9 @@ public class WebServer implements Runnable {
 
     }
 
+    /**
+     * Stops thread
+     */
     public synchronized void stop() {
         isStopped = true;
     }

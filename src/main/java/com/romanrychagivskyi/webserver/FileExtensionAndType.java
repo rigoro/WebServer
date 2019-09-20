@@ -1,7 +1,7 @@
 package com.romanrychagivskyi.webserver;
 
 /**
- * Enum class with all supported extensions
+ * All supported extensions
  */
 enum FileExtensionAndType {
 
@@ -20,6 +20,12 @@ enum FileExtensionAndType {
         this.contentType = contentType;
     }
 
+    /**
+     * Checks if file is allowed by file extension
+     *
+     * @param fileName
+     * @return
+     */
     public static boolean isAllowed(String fileName) {
         for (FileExtensionAndType ext : FileExtensionAndType.values()) {
             if (fileName.toLowerCase().endsWith(ext.ext)) {
@@ -29,6 +35,12 @@ enum FileExtensionAndType {
         return false;
     }
 
+    /**
+     * Gets content type by file extension
+     *
+     * @param fileName
+     * @return
+     */
     public static String getContentType(String fileName) {
         for (FileExtensionAndType ext : FileExtensionAndType.values()) {
             if (fileName.toLowerCase().endsWith(ext.ext)) {

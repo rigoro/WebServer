@@ -29,6 +29,12 @@ public class FileRequestProcessor implements RequestProcessor {
         this.root = root;
     }
 
+    /**
+     * Method reads parameters from input stream,
+     * retrieves file from local system and return bytes into output stream
+     *
+     * @param socket
+     */
     public void process(Socket socket) {
         PrintStream out = null;
         try {
@@ -110,6 +116,13 @@ public class FileRequestProcessor implements RequestProcessor {
         }
     }
 
+    /**
+     * Extracts header parameters
+     *
+     * @param reader
+     * @return
+     * @throws IOException
+     */
     private Map<String, String> extractHeaders(BufferedReader reader) throws IOException {
         Map<String, String> headers = new LinkedHashMap<>();
 
@@ -124,6 +137,13 @@ public class FileRequestProcessor implements RequestProcessor {
         return headers;
     }
 
+    /**
+     * Returns keep alive flag based on request parameters and http version
+     *
+     * @param headers
+     * @param version
+     * @return
+     */
     private boolean keepAlive(Map<String, String> headers, String version) {
         boolean isAlive = headers.containsKey("Connection") && headers.get("Connection").contains("keep-alive");
         boolean isClosed = headers.containsKey("Connection") && headers.get("Connection").contains("close");
@@ -131,6 +151,13 @@ public class FileRequestProcessor implements RequestProcessor {
     }
 
 
+    /**
+     * Sends file bytes to output stream
+     *
+     * @param inputStream
+     * @param out
+     * @throws IOException
+     */
     private static void transferFileToClient(InputStream inputStream, OutputStream out) throws IOException {
         byte[] a = new byte[FILE_SEND_BUFFER_SIZE];
         int n;
@@ -139,10 +166,24 @@ public class FileRequestProcessor implements RequestProcessor {
         }
     }
 
+    /**
+     * Logs request details
+     *
+     * @param socket
+     * @param line
+     */
     private void logRequest(Socket socket, String line) {
         System.out.println("Received request on " + Calendar.getInstance().getTime() + " address=" + socket.getInetAddress() + " port=" + socket.getPort() + " header line " + line);
     }
 
+    /**
+     * Forms error response
+     *
+     * @param msg
+     * @param status
+     * @param version
+     * @return
+     */
     private String errorResponse(String msg, HttpStatus status, String version) {
         return HTTP_PROTOCOL + version + ' ' + status.getStatusCode() + " " + status.getStatusMsg() + "\r\n" +
                 "Content-type: text/html\r\n\r\n" +
@@ -150,6 +191,12 @@ public class FileRequestProcessor implements RequestProcessor {
 
     }
 
+    /**
+     * Transforms headers Map into string value
+     *
+     * @param headers
+     * @return
+     */
     private String headersToString(Map<String, String> headers) {
         StringBuilder headerBuilder = new StringBuilder();
         for (String key : headers.keySet()) {
@@ -158,6 +205,15 @@ public class FileRequestProcessor implements RequestProcessor {
         return headerBuilder.toString();
     }
 
+    /**
+     * Creates response content
+     *
+     * @param contentType
+     * @param headers
+     * @param version
+     * @param keepAlive
+     * @return
+     */
     private String createResponseContent(String contentType, String headers, String version, boolean keepAlive) {
         String keepAliveParameter = "";
         if (keepAlive && VERSION10.equals(version))

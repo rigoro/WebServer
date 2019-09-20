@@ -1,7 +1,7 @@
 package com.romanrychagivskyi.webserver;
 
 /**
- * Class with Http statuses used by application
+ * Http statuses
  */
 public enum HttpStatus {
 
