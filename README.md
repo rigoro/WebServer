@@ -21,4 +21,4 @@ How to use:
 - Run : mvn clean install  (will create a jar in target folder)
 - Run Jar artifact: java -jar artifact.jar
 - In command prompt specify local system folder (for searching files) and server port
-- Run in browser localhost:port/filename.txt
+- Run in browser localhost:{port}/{filename.txt}
